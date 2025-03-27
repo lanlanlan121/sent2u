@@ -1,0 +1,263 @@
+/* Font declarations */
+@font-face {
+    font-family: 'DFVN Boris';
+    src: url('../fonts/DFVN Boris.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DFVN Purenotes';
+    src: url('../fonts/DFVN Purenotes.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Custom styles */
+@layer components {
+    .btn-primary {
+        @apply bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors;
+    }
+    
+    .card {
+        @apply bg-white rounded-lg shadow-md p-6;
+    }
+
+    .text-stroke-light-blue {
+        /* -webkit-text-stroke: 0.5px #93c5fd;  */
+        /* text-shadow: 1px 1px 2px rgba(147, 197, 253, 0.3); */
+    }
+}
+
+/* Loading animations */
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce-slow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+}
+
+.animate-bounce-slow {
+    animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* Page transition effects */
+.page-transition {
+    transition: all 0.5s ease-in-out;
+}
+
+.page-enter {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.page-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.page-exit {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.page-exit-active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Letter container animation */
+.letter-container {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Background transition */
+#open-page {
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* Navigation buttons hover effect */
+.nav-button {
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(252, 165, 165, 0.5) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(252, 165, 165, 0.5);
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(252, 165, 165, 0.7);
+}
+
+/* Attention animation */
+@keyframes scaleAttention {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: brightness(1.2);
+        text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.35);
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    }
+}
+
+.attention-scale {
+    animation: scaleAttention 2s ease-in-out infinite;
+}
+
+/* Mobile frame styles */
+.mobile-frame {
+    position: relative;
+    overflow: hidden;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* Desktop wrapper styles */
+.desktop-wrapper {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    transition: all 0.3s ease;
+}
+
+/* Float animations */
+.float-character {
+    animation: float 6s ease-in-out infinite;
+}
+
+.float-dog {
+    animation: float 8s ease-in-out infinite;
+}
+
+.float-balloon {
+    animation: float 10s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Existing animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulseAttention {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: brightness(1.2);
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+@keyframes floatCharacter {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+
+@keyframes floatDog {
+    0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+}
+
+@keyframes floatBalloon {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(5px, -5px);
+    }
+    50% {
+        transform: translate(0, -10px);
+    }
+    75% {
+        transform: translate(-5px, -5px);
+    }
+} 

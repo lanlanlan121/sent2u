@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc may mắn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="font-['DFVN_Purenotes']">
+    <!-- Loading screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-gradient-to-br from-pink-100 to-orange-100 flex flex-col items-center justify-center z-50">
+        <div class="text-center flex flex-col items-center">
+            <div class="relative w-32 h-32 mb-8">
+                <div class="absolute inset-0 animate-spin-slow">
+                    <img src="./images/image2.png" alt="" class="w-full h-full object-contain">
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <img src="./images/image5.png" alt="" class="w-16 h-16 object-contain animate-bounce-slow">
+                </div>
+            </div>
+            <p class="text-2xl font-bold text-gray-700 mb-4">Cậu đợi một chút nhé...</p>
+            <div class="w-48 h-2 bg-white/50 rounded-full overflow-hidden">
+                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-400 to-orange-400 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <p id="loading-text" class="text-gray-600 mt-4">Đang tải những điều bất ngờ...</p>
+        </div>
+    </div>
+
+    <!-- Desktop wrapper -->
+    <div class="desktop-wrapper flex justify-center items-center h-screen">
+        <!-- Mobile frame - hidden on small screens, visible from md breakpoint -->
+        <div class="w-full sm:w-auto h-full">
+            <div class="mobile-frame sm:rounded-[3rem] sm:shadow-2xl sm:w-[390px] sm:h-[768px] w-full overflow-hidden h-full">
+                <!-- Cover page -->
+                <div id="cover-page" class="flex flex-col justify-center items-center h-full w-full relative bg-pan cursor-pointer" style="background-image: url(./images/image1.png); background-size: cover;" onclick="showLetters()">
+                    <img src="./images/image5.png" alt="" srcset="" class="w-[60%] absolute bottom-[100px] right-[10px] float-character z-10">
+                    <img src="./images/image4.png" alt="" srcset="" class="w-[20%] absolute bottom-[80px] right-[200px] float-dog z-10">
+                    <img src="./images/image2.png" alt="" srcset="" class="w-[120%] absolute top-[0px] left-[-50px] float-balloon z-0">
+                    <div class="w-full absolute top-[100px] flex flex-col justify-center items-center z-30">
+                        <p class="text-white text-5xl font-bold">頑張って</p>
+                        <p class="text-white text-base font-bold">Chúc cậu may mắn</p>
+                    </div>
+                    <div class="pb-[120px] z-30">
+                        <p class="text-white text-stroke-light-blue text-2xl font-bold max-w-[170px] text-center attention-scale" style="color: #FFFFFF;text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);">Cậu bấm vào đây đi!</p>
+                    </div>
+                </div>
+                <!-- Letters page -->
+                <div id="open-page" class="hidden flex-col justify-center items-center h-full w-full relative bg-pan" style="background-image: url(./images/image18.png); background-size: cover;">
+                    <div class="w-full h-full flex flex-col justify-center items-center p-6">
+                        <div class="w-full h-[80%] bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg letter-container">
+                            <!-- Letter content will be loaded here -->
+                        </div>
+                        <!-- Navigation buttons -->
+                        <div class="flex justify-between w-full mt-4 px-4">
+                            <button id="prev-btn" class="bg-white/80 backdrop-blur-sm hover:bg-white/90 text-gray-800 font-semibold py-2 px-6 rounded-full shadow-lg transition-all duration-300 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                                Trước
+                            </button>
+                            <button id="next-btn" class="bg-white/80 backdrop-blur-sm hover:bg-white/90 text-gray-800 font-semibold py-2 px-6 rounded-full shadow-lg transition-all duration-300 flex items-center">
+                                Tiếp
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/letters.js"></script>
+    <script>
+        // Danh sách các asset cần tải
+        const assets = [
+            { type: 'image', src: './images/image1.png', name: 'Background chính' },
+            { type: 'image', src: './images/image2.png', name: 'Bóng bay' },
+            { type: 'image', src: './images/image4.png', name: 'Chú chó' },
+            { type: 'image', src: './images/image5.png', name: 'Nhân vật' },
+            { type: 'image', src: './images/image18.png', name: 'Background thư' }
+        ];
+
+        let loadedAssets = 0;
+        const loadingBar = document.getElementById('loading-bar');
+        const loadingText = document.getElementById('loading-text');
+        const loadingScreen = document.getElementById('loading-screen');
+
+        // Hàm tải asset
+        function loadAsset(asset) {
+            return new Promise((resolve, reject) => {
+                if (asset.type === 'image') {
+                    const img = new Image();
+                    img.onload = () => {
+                        loadedAssets++;
+                        const progress = (loadedAssets / assets.length) * 100;
+                        loadingBar.style.width = `${progress}%`;
+                        loadingText.textContent = `Đang tải ${asset.name}...`;
+                        resolve();
+                    };
+                    img.onerror = reject;
+                    img.src = asset.src;
+                }
+            });
+        }
+
+        // Tải tất cả asset
+        async function loadAllAssets() {
+            try {
+                await Promise.all(assets.map(asset => loadAsset(asset)));
+                loadingText.textContent = 'Hoàn thành!';
+                
+                // Thêm delay nhỏ để hiển thị 100%
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Đợi thêm 2 giây để người dùng nhìn thấy màn hình loading
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Ẩn màn hình loading với animation
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.5s ease-out';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            } catch (error) {
+                console.error('Error loading assets:', error);
+                loadingText.textContent = 'Có lỗi xảy ra, vui lòng thử lại...';
+            }
+        }
+
+        function showLetters() {
+            document.getElementById('cover-page').classList.add('hidden');
+            document.getElementById('open-page').classList.remove('hidden');
+            document.getElementById('open-page').classList.add('flex');
+        }
+
+        // Bắt đầu tải khi trang load
+        window.addEventListener('load', loadAllAssets);
+    </script>
+</body>
+</html> 
